@@ -61,3 +61,24 @@ Given shipping addresses and a set of packages, generate a quote for the cost of
 - Do some refactoring of the bEtsy project you're working on
 - Allow merchants to view the total shipping costs for all of their products in a particular order
 - Find the seam in bEtsy app between the shopping and payment processing, and build a payment processing service
+
+## Team Assignments
+# Shipping Service
+- [__Traverse__](https://github.com/sophiabaldonado/betsy)
+  - Jillian && Leah
+  - Nicole && Jess
+- [__Beeyonce__](https://github.com/vconklin/betsy)
+  - Melissa && Cristal
+  - Sarah && Val
+- [__Hipsterly__](https://github.com/SuzHarrison/betsy)
+  - Risha && Yordanos
+  - Jade && Mindy
+- [__Petsy__](https://github.com/abrown152/betsy)
+  - Lisa && Suze && Rowan
+- [__Ditzy__](https://github.com/pottery123/betsy)
+  - Sophia && Ania
+  - Adriana && Justine
+- [__bEtsy by Bestie__](https://github.com/Lisa-Sano/betsy)
+  - Nadine && Alysia
+  - Deirdre && Anna
+
