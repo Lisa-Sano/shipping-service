@@ -69,12 +69,12 @@ Given shipping addresses and a set of packages, generate a quote for the cost of
   - Nicole && Jess
 - [__Beeyonce__](https://github.com/vconklin/betsy)
   - Melissa && Cristal
-  - Sarah && Val
 - [__Hipsterly__](https://github.com/SuzHarrison/betsy)
   - Risha && Yordanos
   - Jade && Mindy
 - [__Petsy__](https://github.com/abrown152/betsy)
   - Lisa && Suze && Rowan
+  - Sarah && Val
 - [__Ditzy__](https://github.com/pottery123/betsy)
   - Sophia && Ania
   - Adriana && Justine
