@@ -5,6 +5,7 @@
 # below each fixture, per the syntax in the comments below
 #
 order_one:
+  origin_zip: '98103'
   destination_zip: "98117"
   number_of_items: 5
   estimates: "[{'UPS Standard' => '3936'}]"
