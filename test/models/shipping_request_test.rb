@@ -1,28 +1,19 @@
 require 'test_helper'
 
 class ShippingRequestTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
-
-  # setup
-  # end
 
   test "determines the correct number of boxes to use" do
-    # set up an order with 3 items
-    # set up an order with 5 items
-    # set up an order with 8 items
-    # (the above should probably be in our setup block)
+    # set up order_one, shipping_requests[:order_two], order_three in  the fixtures
 
-    assert_equal 1, @order_one.number_of_boxes
-    assert_equal 1, @order_two.number_of_boxes
-    assert_equal 2, @order_three.number_of_boxes
+    assert_equal 1, shipping_requests[:order_one].number_of_boxes
+    assert_equal 1, shipping_requests[:order_two].number_of_boxes
+    assert_equal 2, shipping_requests[:order_three].number_of_boxes
   end
 
   test "determines the correct shipping weight for estimates" do
-    assert_equal 144, @order_one.weight
-    assert_equal 240, @order_two.weight
-    assert_equal 384, @order_three.weight
+    assert_equal 144, shipping_requests[:order_one].weight
+    assert_equal 240, shipping_requests[:order_two].weight
+    assert_equal 384, shipping_requests[:order_three].weight
   end
 
   test "contains an order id" do
@@ -68,9 +59,15 @@ class ShippingRequestTest < ActiveSupport::TestCase
     # assert_raises(ArgumentError) { @invalid_request.destination_zip }
   end
 
-  # test "when given a request with number of boxes and weight returns an estimated shipping price" do
+  # test "when given an order, correctly derives number of boxes and weight" do
   #   # test object?
-  #   assert_equal (run a price query on test object and fill this in.)
+  #   
+  # end
+
+  # test "when given an order, after deriving weight and boxes, returns correct price estimates" do
+    # write a test object here
+    # assert_equal (estimate amount), testobject.estimates[key for which estimate we're checking]
+    # assert_equal (second estimate amount), testobject.estimates[key for second estimate]
   # end
 
   test "when shipping request is finalized it contains a record of chosen ship type and price" do
@@ -81,13 +78,14 @@ class ShippingRequestTest < ActiveSupport::TestCase
     # assert_includes(array_of_types), @our_test_case.chosen_type.keys
 
     # this needs to be refactored to specifically call the key used in this hash to identify shipper
-    refute_nil @our_test_case.chosen_type[shipper]
+    refute_nil shipping_requests[:order_one].chosen_type[shipper]
+    refute_nil shipping_requests[:order_two].chosen_type[shipper]
   end
 
   test "when a shipping request is finalized it won't validate non-preferred shipper" do
     # write an API call to our API here for a bad request
 
-    assert_raises(ArgumentError) {@our_bad_request.chosen_type}
+    assert_raises(ArgumentError) {shipping_requests[:our_bad_request].chosen_type}
   end
 
   test "a valid shipping request saves on completion" do
@@ -97,12 +95,13 @@ class ShippingRequestTest < ActiveSupport::TestCase
   end
 
   test "an invalid request does not save on completion" do
+    # write a bad request here
     refute @our_invalid_request.valid?
     refute @our_invalid_request.save
   end
 
   test "estimates are given to ruby as a hash" do
     # request object here
-    assert_instance_of Hash, @order_one.estimates
+    assert_instance_of Hash, shipping_requests[:order_one].estimates
   end
 end
