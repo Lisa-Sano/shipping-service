@@ -5,15 +5,15 @@ class ShippingRequestTest < ActiveSupport::TestCase
   test "determines the correct number of boxes to use" do
     # set up order_one, shipping_requests[:order_two], order_three in  the fixtures
 
-    assert_equal 1, shipping_requests[:order_one].number_of_boxes
-    assert_equal 1, shipping_requests[:order_two].number_of_boxes
-    assert_equal 2, shipping_requests[:order_three].number_of_boxes
+    assert_equal 1, shipping_requests(:order_one).number_of_boxes
+    assert_equal 1, shipping_requests(:order_two).number_of_boxes
+    assert_equal 2, shipping_requests(:order_three).number_of_boxes
   end
 
   test "determines the correct shipping weight for estimates" do
-    assert_equal 144, shipping_requests[:order_one].weight
-    assert_equal 240, shipping_requests[:order_two].weight
-    assert_equal 384, shipping_requests[:order_three].weight
+    assert_equal 144, shipping_requests(:order_one).weight
+    assert_equal 240, shipping_requests(:order_two).weight
+    assert_equal 384, shipping_requests(:order_three).weight
   end
 
   test "contains an order id" do
@@ -71,37 +71,36 @@ class ShippingRequestTest < ActiveSupport::TestCase
   # end
 
   test "when shipping request is finalized it contains a record of chosen ship type and price" do
-    # write an API call for our API here to test saving
-    # this test might need refactor
-
-    # refute_nil @our_test_case.chosen_type
-    # assert_includes(array_of_types), @our_test_case.chosen_type.keys
 
     # this needs to be refactored to specifically call the key used in this hash to identify shipper
-    refute_nil shipping_requests[:order_one].chosen_type[shipper]
-    refute_nil shipping_requests[:order_two].chosen_type[shipper]
+    refute_nil shipping_requests(:order_one).chosen_type
+    refute_nil shipping_requests(:order_two).chosen_type
   end
 
   test "when a shipping request is finalized it won't validate non-preferred shipper" do
     # write an API call to our API here for a bad request
 
-    assert_raises(ArgumentError) {shipping_requests[:our_bad_request].chosen_type}
+    assert_raises(ArgumentError) {shipping_requests(:our_bad_request).chosen_type}
   end
 
   test "a valid shipping request saves on completion" do
     # write a request here.
+    @our_request = shipping_requests(:order_one)
+    
     assert @our_request.valid?
     assert @our_request.save
   end
 
   test "an invalid request does not save on completion" do
     # write a bad request here
+    @our_invalid_request = ShippingRequest.new
+
     refute @our_invalid_request.valid?
     refute @our_invalid_request.save
   end
 
   test "estimates are given to ruby as a hash" do
     # request object here
-    assert_instance_of Hash, shipping_requests[:order_one].estimates
+    assert_instance_of Hash, shipping_requests(:order_one).estimates
   end
 end
