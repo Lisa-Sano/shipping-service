@@ -31,29 +31,29 @@ class ShippingRequestTest < ActiveSupport::TestCase
   end
 
   test "does not contain an order id invalidates request" do
-    assert_raises(AgurmentError) { @invalid_request.order_id }
+    assert_raises(ArgumentError) { @invalid_request.order_id }
   end
 
   test "contains a shipper zipcode" do
-    refute_nil @shipping_request.shipper_zip
-    assert_equal 5, @shipping_request.shipper_zip.length
+    refute_nil @shipping_request.origin_zip
+    assert_equal 5, @shipping_request.origin_zip.length
   end
 
   test "uses 98103 as the zipcode for shipper if none is provided" do
-    assert_equal 98103, @order_one.shipper_zip
+    assert_equal 98103, @order_one.origin_zip
   end
 
   test "does not contain a shipper zip invalidates request" do
-    assert_raises(AgurmentError) { @invalid_request.shipper_zip }
+    assert_raises(ArgumentError) { @invalid_request.origin_zip }
   end
 
   test "contains a destination zip" do
-    refute_nil @shipping_request.dest_zip
-    assert_equal 5, @shipping_request.dest_zip.length
+    refute_nil @shipping_request.destination_zip
+    assert_equal 5, @shipping_request.destination_zip.length
   end
 
   test "does not contain a dest_zip invalidates request" do
-    assert_raises(AgurmentError) { @invalid_request.dest_zip }
+    assert_raises(ArgumentError) { @invalid_request.destination_zip }
   end
 
   # test "when given a request with number of boxes and weight returns an estimated shipping price" do
@@ -65,8 +65,8 @@ class ShippingRequestTest < ActiveSupport::TestCase
     # write an API call for our API here to test saving
     # this test might need refactor
 
-    refute_nil @our_test_case.chosen_type
-    assert_includes(array_of_types), @our_test_case.chosen_type.keys
+    # refute_nil @our_test_case.chosen_type
+    # assert_includes(array_of_types), @our_test_case.chosen_type.keys
 
     # this needs to be refactored to specifically call the key used in this hash to identify shipper
     refute_nil @our_test_case.chosen_type[shipper]
@@ -75,7 +75,7 @@ class ShippingRequestTest < ActiveSupport::TestCase
   test "when a shipping request is finalized it won't validate non-preferred shipper" do
     # write an API call to our API here for a bad request
 
-    assert_raises(AgurmentError) {@our_bad_request.chosen_type}
+    assert_raises(ArgumentError) {@our_bad_request.chosen_type}
   end
 
   test "a valid shipping request saves on completion" do
