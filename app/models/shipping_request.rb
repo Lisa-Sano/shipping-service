@@ -8,6 +8,5 @@ validates: :order_id, uniqueness: true, numericality: { only_integer: true }
   BOX_SIDE_DIMENSION = 12
   ITEM_WEIGHT_STANDARD = 48
   ITEMS_PER_BOX = 5
-
-
+  
 end
