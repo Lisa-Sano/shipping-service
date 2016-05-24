@@ -14,6 +14,7 @@ class ShippingRequest < ActiveRecord::Base
       return (order_id.number_of_items / ITEMS_PER_BOX) + 1
     else
       return (order_id.number_of_items / ITEMS_PER_BOX)
+    end
   end
 
   def weight(order_id)
