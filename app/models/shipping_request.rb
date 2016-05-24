@@ -9,4 +9,15 @@ class ShippingRequest < ActiveRecord::Base
   ITEM_WEIGHT_STANDARD = 48
   ITEMS_PER_BOX = 5
 
+  def number_of_boxes(order_id)
+    if (order_id.number_of_items % ITEMS_PER_BOX) != 0
+      return (order_id.number_of_items / ITEMS_PER_BOX) + 1
+    else
+      return (order_id.number_of_items / ITEMS_PER_BOX)
+  end
+
+  def weight(order_id)
+    return order_id.number_of_items * ITEM_WEIGHT_STANDARD
+  end
+
 end
