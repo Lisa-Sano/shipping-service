@@ -8,8 +8,26 @@ class ShippingRequestTest < ActiveSupport::TestCase
   # setup
   # end
 
+  test "determines the correct number of boxes to use" do
+    # set up an order with 3 items
+    # set up an order with 5 items
+    # set up an order with 8 items
+    # (the above should probably be in our setup block)
+
+    assert_equal 1, @order_one.number_of_boxes
+    assert_equal 1, @order_two.number_of_boxes
+    assert_equal 2, @order_three.number_of_boxes
+  end
+
+  test "determines the correct shipping weight for estimates" do
+    assert_equal 144, @order_one.weight
+    assert_equal 240, @order_two.weight
+    assert_equal 384, @order_three.weight
+  end
+
   test "contains an order id" do
     refute_nil @shipping_request.order_id
+    refute_empty @shipping_request.order_id
   end
 
   test "does not contain an order id invalidates request" do
@@ -19,6 +37,10 @@ class ShippingRequestTest < ActiveSupport::TestCase
   test "contains a shipper zipcode" do
     refute_nil @shipping_request.shipper_zip
     assert_equal 5, @shipping_request.shipper_zip.length
+  end
+
+  test "uses 98103 as the zipcode for shipper if none is provided" do
+    assert_equal 98103, @order_one.shipper_zip
   end
 
   test "does not contain a shipper zip invalidates request" do
@@ -33,6 +55,11 @@ class ShippingRequestTest < ActiveSupport::TestCase
   test "does not contain a dest_zip invalidates request" do
     assert_raises(AgurmentError) { @invalid_request.dest_zip }
   end
+
+  # test "when given a request with number of boxes and weight returns an estimated shipping price" do
+  #   # test object?
+  #   assert_equal (run a price query on test object and fill this in.)
+  # end
 
   test "when shipping request is finalized it contains a record of chosen ship type and price" do
     # write an API call for our API here to test saving
@@ -62,16 +89,8 @@ class ShippingRequestTest < ActiveSupport::TestCase
     refute @our_invalid_request.save
   end
 
-
-  correctly identifies number of boxes needed for items
-  correctly identifies weight of a shipment
-  returns price estimates in form of carrier: price (as a hash)
-   - carrier should be brand and type, example: UPS_Ground
-
-  ensures default zipcode is supplied if none provided for shipper
-
-  give a weight get prices
-
-
-
+  test "estimates are given to ruby as a hash" do
+    # request object here
+    assert_instance_of Hash, @order_one.estimates
+  end
 end
