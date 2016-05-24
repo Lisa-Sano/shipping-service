@@ -26,34 +26,46 @@ class ShippingRequestTest < ActiveSupport::TestCase
   end
 
   test "contains an order id" do
-    refute_nil @order_one.order_id
-    refute_empty @order_one.order_id
+    order_one = shipping_requests(:order_one)
+
+    refute_nil order_one.order_id
+    assert_instance_of Fixnum, order_one.order_id
   end
 
   test "does not contain an order id invalidates request" do
-    assert_raises(ArgumentError) { @invalid_request.order_id }
+    new_request = ShippingRequest.new
+    refute new_request.valid?
+    assert_includes new_request.errors.keys, :order_id
+    # assert_raises(ArgumentError) { new_request.order_id }
   end
 
   test "contains a shipper zipcode" do
-    refute_nil @order_one.origin_zip
-    assert_equal 5, @order_one.origin_zip.length
+    refute_nil shipping_requests(:order_one).origin_zip
+    assert_equal 5, shipping_requests(:order_one).origin_zip.length
   end
 
   test "uses 98103 as the zipcode for shipper if none is provided" do
-    assert_equal 98103, @order_one.origin_zip
+    assert_equal '98103', shipping_requests(:order_one).origin_zip
   end
 
   test "does not contain a shipper zip invalidates request" do
-    assert_raises(ArgumentError) { @invalid_request.origin_zip }
+    new_request = ShippingRequest.new
+    new_request.origin_zip = nil
+    refute new_request.valid?
+    assert_includes new_request.errors.keys, :origin_zip
+    # assert_raises(ArgumentError) { @invalid_request.origin_zip }
   end
 
   test "contains a destination zip" do
-    refute_nil @order_one.destination_zip
-    assert_equal 5, @order_one.destination_zip.length
+    refute_nil shipping_requests(:order_one).destination_zip
+    assert_equal 5, shipping_requests(:order_one).destination_zip.length
   end
 
   test "does not contain a dest_zip invalidates request" do
-    assert_raises(ArgumentError) { @invalid_request.destination_zip }
+    new_request = ShippingRequest.new
+    refute new_request.valid?
+    assert_includes new_request.errors.keys, :destination_zip
+    # assert_raises(ArgumentError) { @invalid_request.destination_zip }
   end
 
   # test "when given a request with number of boxes and weight returns an estimated shipping price" do
