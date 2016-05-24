@@ -26,8 +26,8 @@ class ShippingRequestTest < ActiveSupport::TestCase
   end
 
   test "contains an order id" do
-    refute_nil @shipping_request.order_id
-    refute_empty @shipping_request.order_id
+    refute_nil @order_one.order_id
+    refute_empty @order_one.order_id
   end
 
   test "does not contain an order id invalidates request" do
@@ -35,8 +35,8 @@ class ShippingRequestTest < ActiveSupport::TestCase
   end
 
   test "contains a shipper zipcode" do
-    refute_nil @shipping_request.origin_zip
-    assert_equal 5, @shipping_request.origin_zip.length
+    refute_nil @order_one.origin_zip
+    assert_equal 5, @order_one.origin_zip.length
   end
 
   test "uses 98103 as the zipcode for shipper if none is provided" do
@@ -48,8 +48,8 @@ class ShippingRequestTest < ActiveSupport::TestCase
   end
 
   test "contains a destination zip" do
-    refute_nil @shipping_request.destination_zip
-    assert_equal 5, @shipping_request.destination_zip.length
+    refute_nil @order_one.destination_zip
+    assert_equal 5, @order_one.destination_zip.length
   end
 
   test "does not contain a dest_zip invalidates request" do
