@@ -6,6 +6,18 @@
 #
 order_one:
   destination_zip: "98117"
-  number_of_items: 5
+  number_of_items: 3
   estimates: "[{'UPS Standard' => '3936'}]"
   order_id: 1
+
+order_two:
+  destination_zip: "18660"
+  number_of_items: 5
+  estimates: "[{'UPS Overnight' => '3936'}]"
+  order_id: 2
+
+order_three:
+  destination_zip: "94102"
+  number_of_items: 8
+  estimates: "[{'UPS Overnight' => '3936'}]"
+  order_id: 3
