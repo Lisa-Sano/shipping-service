@@ -11,13 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160524173524) do
+ActiveRecord::Schema.define(version: 20160524205724) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "shipping_requests", force: :cascade do |t|
-    t.string   "origin_zip",      default: "98103"
+    t.string   "origin_zip",      default: "98103", null: false
     t.string   "destination_zip",                   null: false
     t.integer  "number_of_items",                   null: false
     t.string   "estimates",                         null: false
