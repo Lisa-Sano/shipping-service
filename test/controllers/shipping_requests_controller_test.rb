@@ -69,7 +69,7 @@ module ShippingRequestsControllerTest
 
       get :show, id: shipping_requests(:order_one).id #requires id parameter due to the route
       @body = JSON.parse(response.body)
-      @keys = %w( chosen_type destination_zip estimates number_of_items order_id origin_zip tracking_info )
+      @keys = %w( chosen_type country destination_zip estimates id number_of_items order_id origin_zip tracking_info )
     end
 
     test "has the right keys" do
@@ -92,8 +92,8 @@ module ShippingRequestsControllerTest
       @body = JSON.parse(response.body)
     end
 
-    test "no request found is a 204 (no content)" do
-      assert_response 204
+    test "no request found is a 404 (not found)" do
+      assert_response 404
     end
 
     test "no request found is an empty array" do
