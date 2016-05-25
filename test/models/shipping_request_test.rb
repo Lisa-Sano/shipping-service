@@ -81,8 +81,8 @@ class ShippingRequestTest < ActiveSupport::TestCase
     refute @our_invalid_request.save
   end
 
-  test "estimates are given to ruby as a hash" do
+  test "estimates are given to ruby as a string from our model" do
     # request object here
-    assert_instance_of Hash, shipping_requests(:order_one).estimates
+    assert_instance_of String, shipping_requests(:order_one).estimates
   end
 end
