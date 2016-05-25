@@ -2,8 +2,10 @@ Rails.application.routes.draw do
 
   resources :shipping_requests, only: [:index, :show]
   get '/all_estimates/:id' => 'shipping_requests#show'
-  get '/ups/:id' => 'shipping_requests#show'
-  get '/fedex/:id' => 'shipping_requests#show'
+  
+  # show by provider to be added if we get time after meeting primaries, but currently here as placeholders.
+  # get '/ups/:id' => 'shipping_requests#show_ups'
+  # get '/fedex/:id' => 'shipping_requests#show_fedex'
 
   
 end
