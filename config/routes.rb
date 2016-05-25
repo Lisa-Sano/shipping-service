@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
 
   resources :shipping_requests, only: [:index, :show]
+  get '/all_estimates/:id' => 'shipping_requests#show'
+  get '/ups/:id' => 'shipping_requests#show'
+  get '/fedex/:id' => 'shipping_requests#show'
 
   
 end
