@@ -6,7 +6,7 @@ class ShippingRequestsController < ApplicationController
   end
 
   def show
-    request = ShippingRequest.find_by(id: params[:id])
+    request = ShippingRequest.find_by(order_id: params[:id])
 
     if request.is_a?(ShippingRequest) #could also be if pet.present?
       render json: request.as_json(except: [:id, :created_at, :updated_at])
