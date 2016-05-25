@@ -41,7 +41,7 @@ module ShippingRequestsControllerTest
     end
 
     test "each object contains the relevant keys" do
-      keys = %w( chosen_type destination_zip estimates number_of_items order_id origin_zip tracking_info)
+      keys = %w( chosen_type country destination_zip estimates number_of_items order_id origin_zip tracking_info)
       assert_equal keys, @body.map(&:keys).flatten.uniq.sort
     end
   end
