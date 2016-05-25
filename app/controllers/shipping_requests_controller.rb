@@ -3,7 +3,7 @@ class ShippingRequestsController < ApplicationController
     requests = ShippingRequest.all
 
     #render as JSON EXCEPT for the created/updated_at. You can also use ONLY instead of except.
-    render json: requests.as_json(except: [:id, :created_at, :updated_at]) 
+    render json: requests.as_json(except: [:id, :created_at, :updated_at])
   end
 
   def show
@@ -12,7 +12,7 @@ class ShippingRequestsController < ApplicationController
     if request.is_a?(ShippingRequest) #could also be if request.present?
       render json: request.as_json(except: [:id, :created_at, :updated_at])
     else
-      render json: [], status: :no_content
+      render json: [], status: :not_found
     end
   end
 
