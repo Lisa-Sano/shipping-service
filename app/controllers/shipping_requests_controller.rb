@@ -16,5 +16,5 @@ class ShippingRequestsController < ApplicationController
     end
   end
 
-
+  
 end
