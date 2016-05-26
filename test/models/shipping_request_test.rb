@@ -124,4 +124,40 @@ class ShippingRequestTest < ActiveSupport::TestCase
     assert_equal expected_result, result
     assert_equal expected_result.zip, result.zip
   end
+
+  test "correctly assembles an array of package objects from a count of items" do
+    package_one = shipping_requests(:order_one).package(shipping_requests(:order_one).number_of_items)
+    package_two = shipping_requests(:order_two).package(shipping_requests(:order_two).number_of_items)
+    package_three = shipping_requests(:order_three).package(shipping_requests(:order_three).number_of_items)
+
+    assert_instance_of Array, package_one
+    assert_instance_of Array, package_two
+    assert_instance_of Array, package_three
+
+    assert_instance_of ActiveShipping::Package, package_one[0]
+    assert_instance_of ActiveShipping::Package, package_two[0]
+    assert_instance_of ActiveShipping::Package, package_three[0]
+    assert_instance_of ActiveShipping::Package, package_three[1]
+
+    assert_equal 1, package_one.length
+    assert_equal 1, package_two.length
+    assert_equal 2, package_three.length
+  end
+
+  test "gets correct estimates from UPS when given an origin, destination, and package" do
+    origin_one = shipping_requests(:order_one).origin
+    destination_one = shipping_requests(:order_one).destination
+    package_one = shipping_requests(:order_one).package(shipping_requests(:order_one).number_of_items)
+    ups_estimate_one = shipping_requests(:order_one).ups(origin_one, destination_one, package_one)
+
+    origin_three = shipping_requests(:order_three).origin
+    destination_three = shipping_requests(:order_three).destination
+    package_three = shipping_requests(:order_three).package(shipping_requests(:order_three).number_of_items)
+    ups_three = shipping_requests(:order_three).ups(origin_three, destination_three, package_three)
+
+    assert_instance_of Array, ups_estimate_one
+    assert_instance_of Array, ups_three
+
+    
+  end
 end
