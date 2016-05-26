@@ -22,8 +22,11 @@ class ShippingRequestsController < ApplicationController
   end
 
   def create
-    request = ShippingRequest.new(create_params)
-    request.estimates = 'put estimates here'
+    request = ShippingRequest.new
+    request.destination_zip = params[:destination_zip]
+    request.number_of_items = params[:number_of_items].to_i
+    request.order_id = params[:order_id].to_i
+    request.estimates = {'UPS' => '3900'}
     request.save
 
     if request.present?
@@ -33,10 +36,10 @@ class ShippingRequestsController < ApplicationController
     end
   end
 
-  private
+  # private
 
-  def create_params
-    params.permit(:destination_zip, :number_of_items, :order_id)
-  end
+  # def create_params
+  #   params.permit(:destination_zip, :number_of_items, :order_id)
+  # end
 
 end
