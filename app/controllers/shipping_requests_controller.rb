@@ -26,7 +26,8 @@ class ShippingRequestsController < ApplicationController
     request.destination_zip = params[:destination_zip]
     request.number_of_items = params[:number_of_items].to_i
     request.order_id = params[:order_id].to_i
-    request.estimates = {'UPS' => '3900'}
+    request.request = params
+    request.estimates = assemble_estimates(request.origin_zip, request.destination_zip, request.number_of_items)
     request.save
 
     if request.present?

@@ -11,6 +11,38 @@ class ShippingRequest < ActiveRecord::Base
   ITEM_WEIGHT_STANDARD = 48
   ITEMS_PER_BOX = 5
 
+  def package(order)
+    # this will create the stuff we need to calculate what the package will cost.
+    # multiply stuff from params by constants
+  end
+
+  def origin(order)
+    # this will pull the origin/shipper zip
+  end
+
+  def destination(order)
+    # this will pull the destination zip
+  end
+
+  def ups(order)
+    # this will call the UPS API using package, origin, destination to get estimates.
+  end
+
+  def fedex(order)
+    # this will call the FEDEX API using package, origin, destination to get estimates.
+  end
+
+  def assemble_estimates(shipper_zip, dest_zip, number_of_items)
+    estimates = {}
+
+    estimates[:ups] = ups(shipper_zip, dest_zip, package(number_of_items))
+    estimates[:fedex] = fedex(shipper_zip, dest_zip, package(number_of_items))
+  end
+
+  def tracking(order)
+    # this should be a way to retrieve a tracking number from shippers.
+  end
+
   def number_of_boxes
     if number_of_items % ITEMS_PER_BOX != 0
       return (number_of_items / ITEMS_PER_BOX) + 1
