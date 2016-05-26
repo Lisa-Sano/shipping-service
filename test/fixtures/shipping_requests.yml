@@ -8,20 +8,22 @@ order_one:
   origin_zip: '98103'
   destination_zip: "98117"
   number_of_items: 3
-  estimates: {'UPS Standard' => '3936'}
+  # this weird erb syntax is needed due to serializing :estimates to json in our model class
+  # if we don't do this, it will have a JSON Parse error
+  estimates: <%= {"UPS Standard" => "3936", "UPS Overnight" => "5550"}.to_json.inspect %>
   order_id: 1
   country: 'US'
 
 order_two:
   destination_zip: "18660"
   number_of_items: 5
-  estimates: {'UPS Overnight' => '3936'}
+  estimates: <%= {"UPS Standard" => "3936", "UPS Overnight" => "5550"}.to_json.inspect %>
   order_id: 2
   country: 'US'
 
 order_three:
   destination_zip: "94102"
   number_of_items: 8
-  estimates: {'UPS Overnight' => '3936'}
+  estimates: <%= {"UPS Standard" => "3936", "UPS Overnight" => "5550"}.to_json.inspect %>
   order_id: 3
   country: 'US'

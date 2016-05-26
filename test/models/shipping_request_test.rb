@@ -94,8 +94,11 @@ class ShippingRequestTest < ActiveSupport::TestCase
     refute @our_invalid_request.save
   end
 
-  test "estimates are given to ruby as a string from our model" do
+  # due to the serializer in the model, we input a Hash and it's stored
+  # in the database as a JSON string. when we get the value back out,
+  # it's de-serialized from JSON into a Hash.
+  test "estimates are given to ruby as a Hash from our model" do
     # request object here
-    assert_instance_of String, shipping_requests(:order_one).estimates
+    assert_instance_of Hash, shipping_requests(:order_one).estimates
   end
 end
