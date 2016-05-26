@@ -10,9 +10,6 @@ class ShippingRequestsController < ApplicationController
 
   def show
     request = ShippingRequest.find_by(id: params[:id])
-    log_record = ShippingLog.new
-    log_record.response = request.as_json
-    log_record.save
 
     if request.is_a?(ShippingRequest) #could also be if request.present?
       render json: request.as_json(except: [:request, :created_at, :updated_at])
