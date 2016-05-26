@@ -16,5 +16,7 @@ class ShippingRequestsController < ApplicationController
     end
   end
 
-  
+  def create
+    
+  end
 end
