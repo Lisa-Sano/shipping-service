@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  resources :shipping_requests, only: [:index, :show]
+  resources :shipping_requests, only: [:index, :show, :create]
   get '/all_estimates/:id' => 'shipping_requests#show'
   
   # show by provider to be added if we get time after meeting primaries, but currently here as placeholders.
