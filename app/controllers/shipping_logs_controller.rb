@@ -1,2 +1,0 @@
-class ShippingLogsController < ApplicationController
-end
