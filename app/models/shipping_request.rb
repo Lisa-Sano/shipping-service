@@ -21,4 +21,26 @@ class ShippingRequest < ActiveRecord::Base
     return number_of_items * ITEM_WEIGHT_STANDARD
   end
 
+  def get_fedex(order)
+    # establish boxes per order
+    # establish weight of boxes
+    # API call to get estimates 
+  end
+
+  def get_ups(order)
+    # this is pseudocode
+    # order is the object that we're looking up shipping for
+
+  end
+
+  def assemble_estimate(order)
+    @shipping_request = ShippingRequest.new
+    @shipping_request.response = @_request.raw_post
+
+    estimate = {
+                    "UPS" => "#{get_ups(order)}"
+                    "FEDEX" => "#{get_fedex(order)}"
+               }
+  end
+
 end
