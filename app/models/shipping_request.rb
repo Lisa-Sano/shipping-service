@@ -68,13 +68,13 @@ class ShippingRequest < ActiveRecord::Base
     boxes = {}
     counter = 0
 
-    until number_of_items < 5
+    until number_of_items <= 5
       counter += 1
       boxes["box_#{counter}"] = 5
       number_of_items -= 5
     end
 
-    boxes["box_#{counter + 1}"] = number_of_items
+    boxes["box_#{counter + 1}"] = number_of_items if number_of_items > 0 
 
     return boxes
   end

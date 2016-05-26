@@ -1,17 +1,22 @@
 require 'test_helper'
+require 'active_shipping'
 
 class ShippingRequestTest < ActiveSupport::TestCase
 
   test "determines the correct number of boxes to use" do
-    assert_equal 1, shipping_requests(:order_one).number_of_boxes
-    assert_equal 1, shipping_requests(:order_two).number_of_boxes
-    assert_equal 2, shipping_requests(:order_three).number_of_boxes
+    assert_equal ({"box_1"=>3}), shipping_requests(:order_one).number_of_boxes(shipping_requests(:order_one).number_of_items)
+    assert_equal ({"box_1"=>5}), shipping_requests(:order_two).number_of_boxes(shipping_requests(:order_two).number_of_items)
+    assert_equal ({"box_1"=>5, "box_2"=>3}), shipping_requests(:order_three).number_of_boxes(shipping_requests(:order_three).number_of_items)
   end
 
   test "determines the correct shipping weight for estimates" do
-    assert_equal 144, shipping_requests(:order_one).weight
-    assert_equal 240, shipping_requests(:order_two).weight
-    assert_equal 384, shipping_requests(:order_three).weight
+    request_one = shipping_requests(:order_one).number_of_boxes(shipping_requests(:order_one).number_of_items)
+    request_two = shipping_requests(:order_two).number_of_boxes(shipping_requests(:order_two).number_of_items)
+    request_three = shipping_requests(:order_three).number_of_boxes(shipping_requests(:order_three).number_of_items)
+
+    assert_equal 144, shipping_requests(:order_one).weight(request_one["box_1"])
+    assert_equal 240, shipping_requests(:order_two).weight(request_two["box_1"])
+    assert_equal 384, (shipping_requests(:order_three).weight(request_three["box_1"]) + shipping_requests(:order_three).weight(request_three["box_2"]))
   end
 
   test "contains an order id" do
@@ -100,5 +105,23 @@ class ShippingRequestTest < ActiveSupport::TestCase
   test "estimates are given to ruby as a Hash from our model" do
     # request object here
     assert_instance_of Hash, shipping_requests(:order_one).estimates
+  end
+
+  test "get an ActiveShipping location object from origin for creating estimates" do
+    result = shipping_requests(:order_one).origin
+    expected_result = ActiveShipping::Location.new(country: "USA", zip: "98103")
+
+    assert_instance_of ActiveShipping::Location, result
+    assert_equal expected_result, result
+    assert_equal expected_result.zip, result.zip
+  end
+
+  test "gets and ActiveShipping location object from destination for creating estimates" do
+    result = shipping_requests(:order_one).destination
+    expected_result = ActiveShipping::Location.new(country: "USA", zip: "98117")
+
+    assert_instance_of ActiveShipping::Location, result
+    assert_equal expected_result, result
+    assert_equal expected_result.zip, result.zip
   end
 end
