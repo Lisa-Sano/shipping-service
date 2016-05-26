@@ -41,7 +41,7 @@ module ShippingRequestsControllerTest
     end
 
     test "each object contains the relevant keys" do
-      keys = %w( chosen_type country destination_zip estimates number_of_items order_id origin_zip tracking_info)
+      keys = %w( country destination_zip estimates id number_of_items order_id origin_zip tracking_info)
       assert_equal keys, @body.map(&:keys).flatten.uniq.sort
     end
   end
@@ -69,7 +69,7 @@ module ShippingRequestsControllerTest
 
       get :show, id: shipping_requests(:order_one).id #requires id parameter due to the route
       @body = JSON.parse(response.body)
-      @keys = %w( chosen_type country destination_zip estimates id number_of_items order_id origin_zip tracking_info )
+      @keys = %w( country destination_zip estimates id number_of_items order_id origin_zip tracking_info )
     end
 
     test "has the right keys" do

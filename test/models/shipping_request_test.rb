@@ -27,6 +27,14 @@ class ShippingRequestTest < ActiveSupport::TestCase
     assert_includes new_request.errors.keys, :order_id
   end
 
+  test "order_id must be an integer" do
+    one = shipping_requests(:order_one)
+    one.order_id = 1.5
+
+    refute one.valid?
+    assert_includes one.errors.keys, :order_id
+  end
+
   test "contains a shipper zipcode" do
     refute_nil shipping_requests(:order_one).origin_zip
     assert_equal 5, shipping_requests(:order_one).origin_zip.length
@@ -54,15 +62,20 @@ class ShippingRequestTest < ActiveSupport::TestCase
     assert_includes new_request.errors.keys, :destination_zip
   end
 
-  test "when shipping request is finalized it contains a record of chosen ship type and price" do
-    refute_nil shipping_requests(:order_one).chosen_type
-    refute_nil shipping_requests(:order_two).chosen_type
+  test "number of items must be an integer" do
+    one = shipping_requests(:order_one)
+    one.number_of_items = 1.5
+
+    refute one.valid?
+    assert_includes one.errors.keys, :number_of_items
   end
 
-  test "when a shipping request is finalized it won't validate non-preferred shipper" do
-    @our_invalid_request = ShippingRequest.new
+  test "number of items must be greater than 0" do
+    one = shipping_requests(:order_one)
+    one.number_of_items = -2
 
-    assert_raises(ArgumentError) {@our_bad_request.chosen_type}
+    refute one.valid?
+    assert_includes one.errors.keys, :number_of_items
   end
 
   test "a valid shipping request saves on completion" do

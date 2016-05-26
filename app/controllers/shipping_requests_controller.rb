@@ -2,7 +2,9 @@ class ShippingRequestsController < ApplicationController
   def index
     requests = ShippingRequest.all
 
-    render json: requests.as_json(except: [:id, :created_at, :updated_at]) #render as JSON EXCEPT for the created/updated_at. You can also use ONLY instead of except.
+
+    #render as JSON EXCEPT for the created/updated_at. You can also use ONLY instead of except.
+    render json: requests.as_json(except: [:request, :created_at, :updated_at])
   end
 
   def show
@@ -11,8 +13,8 @@ class ShippingRequestsController < ApplicationController
     log_record.response = request.as_json
     log_record.save
 
-    if request.is_a?(ShippingRequest) #could also be if pet.present?
-      render json: request.as_json(except: [:id, :created_at, :updated_at])
+    if request.is_a?(ShippingRequest) #could also be if request.present?
+      render json: request.as_json(except: [:request, :created_at, :updated_at])
     else
       render json: [], status: :not_found
     end
