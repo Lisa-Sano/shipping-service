@@ -33,11 +33,4 @@ class ShippingRequestsController < ApplicationController
       render json: [], status: :not_found
     end
   end
-
-  # private
-
-  # def create_params
-  #   params.permit(:destination_zip, :number_of_items, :order_id)
-  # end
-
 end
