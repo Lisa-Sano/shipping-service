@@ -83,6 +83,21 @@ module ShippingRequestsControllerTest
     end
   end
 
+  class CreateAction < ActionController::TestCase
+    setup do
+      @request_one = shipping_requests(:order_one)
+      @request_two = shipping_requests(:order_two)
+      @request_three = shipping_requests(:order_three)
+    end
+
+    test "can create new requests" do
+      assert_difference('ShippingRequest.count') do
+        post :create, shipping_request: {destination_zip: @request_one.destination_zip, origin_zip: @request_one.origin_zip,  number_of_items: @request_one.number_of_items, order_id: @request_one.order_id}
+      end
+    end
+
+  end
+
   class NoRequestsFound < ActionController::TestCase
     setup do
       @request.headers['Accept'] = Mime::JSON
