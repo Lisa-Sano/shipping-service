@@ -1,4 +1,6 @@
 class ShippingRequestsController < ApplicationController
+  skip_before_filter :verify_authenticity_token, only: [:create]
+
   def index
     requests = ShippingRequest.all
 
@@ -20,6 +22,21 @@ class ShippingRequestsController < ApplicationController
   end
 
   def create
-    
+    request = ShippingRequest.new(create_params)
+    request.estimates = 'put estimates here'
+    request.save
+
+    if request.present?
+      render json: request.as_json(except: [:request, :created_at, :updated_at])
+    else
+      render json: [], status: :not_found
+    end
   end
+
+  private
+
+  def create_params
+    params.permit(:destination_zip, :number_of_items, :order_id)
+  end
+
 end
