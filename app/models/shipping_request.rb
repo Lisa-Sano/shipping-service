@@ -28,27 +28,27 @@ class ShippingRequest < ActiveRecord::Base
     # multiply stuff from params by constants
   end
 
-  def origin(order)
-    # this will pull the origin/shipper zip
+  def origin
+    origin = ActiveShipping::Location.new(country: self.country, zip: self.origin_zip)
   end
 
-  def destination(order)
-    # this will pull the destination zip
+  def destination
+    destination = ActiveShipping::Location.new(country: self.country, zip: self.destination_zip)
   end
 
-  def ups(order)
+  def ups(origin, destination, package)
     # this will call the UPS API using package, origin, destination to get estimates.
   end
 
-  def fedex(order)
+  def fedex(origin, destination, package)
     # this will call the FEDEX API using package, origin, destination to get estimates.
   end
 
-  def assemble_estimates(shipper_zip, dest_zip, number_of_items)
+  def assemble_estimates
     estimates = {}
 
-    estimates[:ups] = ups(shipper_zip, dest_zip, package(number_of_items))
-    estimates[:fedex] = fedex(shipper_zip, dest_zip, package(number_of_items))
+    estimates[:ups] = ups(self.origin, self.destination, package(self.number_of_items))
+    estimates[:fedex] = fedex(self.origin, self.destination, package(self.number_of_items))
   end
 
   def tracking(order)

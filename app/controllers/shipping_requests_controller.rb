@@ -27,7 +27,7 @@ class ShippingRequestsController < ApplicationController
     request.number_of_items = params[:number_of_items].to_i
     request.order_id = params[:order_id].to_i
     request.request = params
-    request.estimates = assemble_estimates(request.origin_zip, request.destination_zip, request.number_of_items)
+    request.estimates = request.assemble_estimates
     request.save
 
     if request.present?
