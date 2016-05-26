@@ -37,18 +37,31 @@ class ShippingRequest < ActiveRecord::Base
   end
 
   def ups(origin, destination, package)
-    # this will call the UPS API using package, origin, destination to get estimates.
+    ups = ActiveShipping::UPS.new(login: ENV["UPS_LOGIN"], password: ENV["UPS_PASSWORD"], key: ENV["UPS_ACCESS_KEY"], test: true)
+    ups_estimates = ups.find_rates(origin, destination, package)
+    ups_estimates = ups_estimates.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price]}
+
+    return ups_estimates
   end
 
   def fedex(origin, destination, package)
-    # this will call the FEDEX API using package, origin, destination to get estimates.
+    fedex = ActiveShipping::FedEx.new(login: ENV["FEDEX_TEST_METER_NUMBER"], password: ENV["FEDEX_PASSWORD"], key: ENV["FEDEX_DEVELOPER_TEST_KEY"], account: ENV["FEDEX_TEST_ACCOUNT_NUMBER"], test: true)
+    fedex_estimates = fedex.find_rates(origin, destination, package)
+    fedex_estimates = fedex_estimates.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price]}
+
+    return fedex_estimates
   end
 
   def assemble_estimates
-    estimates = {}
+    estimates = ups(self.origin, self.destination, package(self.number_of_items))
+    estimates.push(*fedex(self.origin, self.destination, package(self.number_of_items)))
+    composed_quote = {}
 
-    estimates[:ups] = ups(self.origin, self.destination, package(self.number_of_items))
-    estimates[:fedex] = fedex(self.origin, self.destination, package(self.number_of_items))
+    estimates.each do |array|
+      composed_quote[array[0]] = array[1]
+    end
+
+    return composed_quote
   end
 
   def tracking(order)
