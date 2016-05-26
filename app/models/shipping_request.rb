@@ -9,7 +9,7 @@ class ShippingRequest < ActiveRecord::Base
   serialize :estimates, JSON
 
   # Box sides are measured in inches. Item weight is measured in oz.
-  BOX_SIDE_DIMENSION = 12
+  BOX_DIMENSIONS = [12,12,12]
   ITEM_WEIGHT_STANDARD = 48
   ITEMS_PER_BOX = 5
 
@@ -17,7 +17,12 @@ class ShippingRequest < ActiveRecord::Base
     # package = ActiveShipping::Package.new(16, [12, 12, 12], units: :imperial)
     # 16 is the weight
     # array is box dimensions
+    boxes = number_of_boxes(number_of_items)
 
+    packages = boxes.map do |box, count|
+      count = weight(count)
+      ActiveShipping::Package.new(count, BOX_DIMENSIONS, units: :imperial)
+    end
 
     # this will create the stuff we need to calculate what the package will cost.
     # multiply stuff from params by constants
