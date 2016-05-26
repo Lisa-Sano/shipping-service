@@ -64,10 +64,6 @@ class ShippingRequest < ActiveRecord::Base
     return composed_quote
   end
 
-  def tracking(order)
-    # this should be a way to retrieve a tracking number from shippers.
-  end
-
   def number_of_boxes(number_of_items)
     boxes = {}
     counter = 0
