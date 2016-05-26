@@ -144,7 +144,7 @@ class ShippingRequestTest < ActiveSupport::TestCase
     assert_equal 2, package_three.length
   end
 
-  test "gets correct estimates from UPS when given an origin, destination, and package" do
+  test "gets estimates from UPS when given an origin, destination, and package" do
     origin_one = shipping_requests(:order_one).origin
     destination_one = shipping_requests(:order_one).destination
     package_one = shipping_requests(:order_one).package(shipping_requests(:order_one).number_of_items)
@@ -157,7 +157,29 @@ class ShippingRequestTest < ActiveSupport::TestCase
 
     assert_instance_of Array, ups_estimate_one
     assert_instance_of Array, ups_three
+  end
 
-    
+  test "gets estimates from FedEx when given an origin, destination, and package" do
+    origin_one = shipping_requests(:order_one).origin
+    destination_one = shipping_requests(:order_one).destination
+    package_one = shipping_requests(:order_one).package(shipping_requests(:order_one).number_of_items)
+    fedex_estimate_one = shipping_requests(:order_one).fedex(origin_one, destination_one, package_one)
+
+    origin_three = shipping_requests(:order_three).origin
+    destination_three = shipping_requests(:order_three).destination
+    package_three = shipping_requests(:order_three).package(shipping_requests(:order_three).number_of_items)
+    fedex_three = shipping_requests(:order_three).fedex(origin_three, destination_three, package_three)
+
+    assert_instance_of Array, fedex_estimate_one
+    assert_instance_of Array, fedex_three
+  end
+
+  test "assemble_estimates composes a response made of the estimates" do
+    request_one = shipping_requests(:order_one)
+    composed_quote = request_one.assemble_estimates
+
+    refute_nil composed_quote["UPS Ground"]
+    refute_nil composed_quote["FedEx Ground Home Delivery"]
+    refute_nil composed_quote["FedEx 2 Day"]
   end
 end
