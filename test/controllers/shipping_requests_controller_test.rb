@@ -92,7 +92,7 @@ module ShippingRequestsControllerTest
 
     test "can create new requests" do
       assert_difference('ShippingRequest.count') do
-        post :create, shipping_request: {destination_zip: @request_one.destination_zip, origin_zip: @request_one.origin_zip,  number_of_items: @request_one.number_of_items, order_id: @request_one.order_id}
+        post :create, {destination_zip: @request_one.destination_zip, origin_zip: @request_one.origin_zip,  number_of_items: @request_one.number_of_items, order_id: @request_one.order_id}
       end
     end
 
