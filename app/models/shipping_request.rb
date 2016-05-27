@@ -47,7 +47,7 @@ class ShippingRequest < ActiveRecord::Base
   def fedex(origin, destination, package)
     fedex = ActiveShipping::FedEx.new(login: ENV["FEDEX_TEST_METER_NUMBER"], password: ENV["FEDEX_PASSWORD"], key: ENV["FEDEX_DEVELOPER_TEST_KEY"], account: ENV["FEDEX_TEST_ACCOUNT_NUMBER"], test: true)
     fedex_estimates = fedex.find_rates(origin, destination, package)
-    fedex_estimates = fedex_estimates.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price]}
+    fedex_estimates = fedex_estimates.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price, rate.delivery_date]}
 
     return fedex_estimates
   end
@@ -58,7 +58,7 @@ class ShippingRequest < ActiveRecord::Base
     composed_quote = {}
 
     estimates.each do |array|
-      composed_quote[array[0]] = array[1]
+      composed_quote[array[0]] = [array[1], array[2]]
     end
 
     return composed_quote
