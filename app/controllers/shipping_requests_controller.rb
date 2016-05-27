@@ -34,7 +34,7 @@ class ShippingRequestsController < ApplicationController
         else
           render json: [], status: :not_found
         end 
-      end
+      }
     rescue
       render json: [], status: :request_timeout
     end
