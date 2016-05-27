@@ -19,18 +19,24 @@ class ShippingRequestsController < ApplicationController
   end
 
   def create
-    request = ShippingRequest.new
-    request.destination_zip = params[:destination_zip]
-    request.number_of_items = params[:number_of_items].to_i
-    request.order_id = params[:order_id].to_i
-    request.request = params
-    request.estimates = request.assemble_estimates
-    request.save
+    begin
+       status = Timeout::timeout(5) {
+        request = ShippingRequest.new
+        request.destination_zip = params[:destination_zip]
+        request.number_of_items = params[:number_of_items].to_i
+        request.order_id = params[:order_id].to_i
+        request.request = params
+        request.estimates = request.assemble_estimates
+        request.save
 
-    if request.present?
-      render json: request.as_json(except: [:request, :created_at, :updated_at])
-    else
-      render json: [], status: :not_found
+        if request.present?
+          render json: request.as_json(except: [:request, :created_at, :updated_at])
+        else
+          render json: [], status: :not_found
+        end 
+      end
+    rescue
+      render json: [], status: :request_timeout
     end
   end
 end
