@@ -20,7 +20,7 @@ class ShippingRequestsController < ApplicationController
 
   def create
     begin
-       status = Timeout::timeout(300) {
+       status = Timeout::timeout(8000) {
         request = ShippingRequest.new
         request.destination_zip = params[:destination_zip]
         request.number_of_items = params[:number_of_items].to_i
