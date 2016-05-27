@@ -1,4 +1,4 @@
-require 'timeout'
+
 
 class ShippingRequestsController < ApplicationController
   skip_before_filter :verify_authenticity_token, only: [:create]
@@ -21,8 +21,8 @@ class ShippingRequestsController < ApplicationController
   end
 
   def create
-    begin
-       status = Timeout::timeout(8000) {
+    # begin
+       # status = Timeout::timeout(8000) {
         request = ShippingRequest.new
         request.destination_zip = params[:destination_zip]
         request.number_of_items = params[:number_of_items].to_i
@@ -36,9 +36,9 @@ class ShippingRequestsController < ApplicationController
         else
           render json: [], status: :not_found
         end 
-      }
-    rescue
-      render json: [], status: :request_timeout
-    end
+      # }
+    # rescue
+    #   render json: [], status: :request_timeout
+    # end
   end
 end
